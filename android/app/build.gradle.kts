@@ -22,6 +22,7 @@ val appVersion = readVersionFromJson()
 android {
     namespace = "com.fc.fcaevpn"
     compileSdk = 34
+    ndkVersion = "27.3.13750724"
 
     defaultConfig {
         applicationId = "com.fc.fcaevpn"
@@ -73,7 +74,11 @@ android {
                 arguments += listOf(
                     "-DCMAKE_BUILD_TYPE=Release",
                     "-DANDROID_STL=c++_shared",
-                    "-DAETHER_TARGET=${cmakeTarget}"
+                    "-DAETHER_TARGET=${cmakeTarget}",
+                    "-DCMAKE_C_COMPILER=/data/data/com.termux/files/usr/bin/clang",
+                    "-DCMAKE_CXX_COMPILER=/data/data/com.termux/files/usr/bin/clang++",
+                    "-DCMAKE_C_COMPILER_TARGET=aarch64-linux-android24",
+                    "-DCMAKE_CXX_COMPILER_TARGET=aarch64-linux-android24"
                 )
             }
         }
