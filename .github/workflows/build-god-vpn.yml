@@ -36,6 +36,74 @@ jobs:
       - name: Accept Android licenses
         run: yes | sdkmanager --licenses || true
 
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-linux-android
+
+      - name: Build Rust Aether FFI
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          NDK="$ANDROID_SDK_ROOT/ndk/27.3.13750724"
+
+          if [ ! -d "$NDK" ]; then
+            echo "NDK not found: $NDK"
+            exit 1
+          fi
+
+          HOST_TAG="linux-x86_64"
+          PREBUILT="$NDK/toolchains/llvm/prebuilt/$HOST_TAG"
+          BIN="$PREBUILT/bin"
+
+          export ANDROID_NDK_HOME="$NDK"
+          export ANDROID_NDK_ROOT="$NDK"
+          export PATH="$BIN:$PATH"
+
+          CLANG="$BIN/aarch64-linux-android24-clang"
+          CLANGXX="$BIN/aarch64-linux-android24-clang++"
+
+          if [ ! -x "$CLANG" ]; then
+            echo "Android clang not found: $CLANG"
+            exit 1
+          fi
+
+          export CC_aarch64_linux_android="$CLANG"
+          export CXX_aarch64_linux_android="$CLANGXX"
+          export AR_aarch64_linux_android="$BIN/llvm-ar"
+
+          export CARGO_TARGET_AARCH64_LINUX_ANDROID_LINKER="$CLANG"
+          export CARGO_TARGET_AARCH64_LINUX_ANDROID_AR="$BIN/llvm-ar"
+
+          export BINDGEN_EXTRA_CLANG_ARGS_aarch64_linux_android="--sysroot=$PREBUILT/sysroot"
+          export CFLAGS_aarch64_linux_android="--sysroot=$PREBUILT/sysroot"
+          export CXXFLAGS_aarch64_linux_android="--sysroot=$PREBUILT/sysroot"
+
+          "$CLANG" --version | head -1
+
+          cargo build \
+            --manifest-path core/Aether/Cargo.toml \
+            --release \
+            --target aarch64-linux-android \
+            -p aether-ffi
+
+          mkdir -p target/aarch64-linux-android/release
+
+          if [ -f "core/Aether/target/aarch64-linux-android/release/libaether_ffi.a" ]; then
+            cp -f \
+              core/Aether/target/aarch64-linux-android/release/libaether_ffi.a \
+              target/aarch64-linux-android/release/libaether_ffi.a
+          elif [ -f "target/aarch64-linux-android/release/libaether_ffi.a" ]; then
+            echo "libaether_ffi.a already exists in root target"
+          else
+            echo "ERROR: libaether_ffi.a was not produced"
+            find . -name "libaether_ffi.a" -print
+            exit 1
+          fi
+
+          ls -lh target/aarch64-linux-android/release/libaether_ffi.a
+
       - name: Make Gradle executable
         run: chmod +x android/gradlew
 
