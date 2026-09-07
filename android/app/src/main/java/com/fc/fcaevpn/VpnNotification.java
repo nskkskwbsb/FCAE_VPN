@@ -36,9 +36,9 @@ public class VpnNotification {
     private void createChannel() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             NotificationChannel ch = new NotificationChannel(
-                CHANNEL_ID, "FCAE VPN",
+                CHANNEL_ID, "GOD VPN",
                 NotificationManager.IMPORTANCE_LOW);
-            ch.setDescription("FCAE VPN tunnel status");
+            ch.setDescription("GOD VPN tunnel status");
             ch.setShowBadge(false);
             if (manager != null) manager.createNotificationChannel(ch);
         }
@@ -47,7 +47,7 @@ public class VpnNotification {
     public Notification build(String text, boolean showStopButton) {
         Notification.Builder nb = new Notification.Builder(context, CHANNEL_ID);
 
-        nb.setContentTitle("FCAE VPN")
+        nb.setContentTitle("GOD VPN")
           .setContentText(text)
           .setSmallIcon(android.R.drawable.ic_lock_lock)
           .setContentIntent(piMain)

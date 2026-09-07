@@ -113,17 +113,17 @@ public class FCAEVpnService extends VpnService {
                         lastStartIntent = new Intent(intent);
                         startVpn(intent);
                     } else {
-                        notification.show("FCAE VPN — Ready (tap Connect in app)", false);
+                        notification.show("GOD VPN — Ready (tap Connect in app)", false);
                         startForeground(VpnNotification.NOTIFICATION_ID,
-                            notification.build("FCAE VPN — Ready (tap Connect in app)", false));
+                            notification.build("GOD VPN — Ready (tap Connect in app)", false));
                     }
                     return START_STICKY;
             }
         }
 
-        notification.show("FCAE VPN — Ready (tap Connect in app)", false);
+        notification.show("GOD VPN — Ready (tap Connect in app)", false);
         startForeground(VpnNotification.NOTIFICATION_ID,
-            notification.build("FCAE VPN — Ready (tap Connect in app)", false));
+            notification.build("GOD VPN — Ready (tap Connect in app)", false));
         return START_STICKY;
     }
 
@@ -144,9 +144,9 @@ public class FCAEVpnService extends VpnService {
             try { oldPfd.close(); } catch (Exception ignored) {}
         }
 
-        notification.show("FCAE VPN — Connecting...", false);
+        notification.show("GOD VPN — Connecting...", false);
         startForeground(VpnNotification.NOTIFICATION_ID,
-            notification.build("FCAE VPN — Connecting...", false));
+            notification.build("GOD VPN — Connecting...", false));
 
         final int protocol    = intent.getIntExtra("protocol", 0);
         final int mode        = intent.getIntExtra("mode", 1);
@@ -181,7 +181,7 @@ public class FCAEVpnService extends VpnService {
         vpnThread = new Thread(() -> {
             try {
                 Builder builder = new Builder();
-                builder.setSession("FCAE VPN");
+                builder.setSession("GOD VPN");
                 // 1280 matches the engine's tunnel MTU (TUNNEL_MTU). Do NOT
                 // go below 1280: this interface carries an IPv6 address
                 // (fd00::2) and Android/Linux reject IPv6 on links with
@@ -373,7 +373,7 @@ public class FCAEVpnService extends VpnService {
     private void updateNotification() {
         if (vpnPaused) {
             lastNotifText = null;
-            notification.show("FCAE VPN — Stopped (tap Start to resume)", false);
+            notification.show("GOD VPN — Stopped (tap Start to resume)", false);
         } else if (running) {
             long rx = 0, tx = 0, totalRx = 0, totalTx = 0;
             try {
@@ -392,7 +392,7 @@ public class FCAEVpnService extends VpnService {
             }
         } else {
             lastNotifText = null;
-            notification.show("FCAE VPN — Disconnected", false);
+            notification.show("GOD VPN — Disconnected", false);
         }
     }
 

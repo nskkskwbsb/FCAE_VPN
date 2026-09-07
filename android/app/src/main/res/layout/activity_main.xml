@@ -64,6 +64,15 @@
                         android:textSize="10sp"
                         android:textStyle="bold"
                         android:letterSpacing="0.12" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Creator @ByteTunnel"
+                        android:textColor="#8EA496"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
 

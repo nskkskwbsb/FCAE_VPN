@@ -39,9 +39,9 @@ public class ProxyNotification extends Service {
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             android.app.NotificationChannel ch = new android.app.NotificationChannel(
-                CHANNEL_ID, "FCAE Proxy",
+                CHANNEL_ID, "GOD VPN Proxy",
                 android.app.NotificationManager.IMPORTANCE_LOW);
-            ch.setDescription("FCAE VPN proxy mode status");
+            ch.setDescription("GOD VPN proxy mode status");
             ch.setShowBadge(false);
             android.app.NotificationManager mgr = getSystemService(android.app.NotificationManager.class);
             if (mgr != null) mgr.createNotificationChannel(ch);
@@ -65,7 +65,7 @@ public class ProxyNotification extends Service {
             return START_NOT_STICKY;
         }
 
-        showNotification("FCAE VPN — Proxy connecting...", false);
+        showNotification("GOD VPN — Proxy connecting...", false);
         handler.post(statsRunnable);
         return START_STICKY;
     }
@@ -77,7 +77,7 @@ public class ProxyNotification extends Service {
 
     private void showNotification(String text, boolean connected) {
         Notification.Builder nb = new Notification.Builder(this, CHANNEL_ID)
-            .setContentTitle("FCAE VPN (Proxy)")
+            .setContentTitle("GOD VPN (Proxy)")
             .setContentText(text)
             .setSmallIcon(android.R.drawable.ic_lock_lock)
             .setContentIntent(piMain)
